@@ -1,12 +1,39 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="STYLE/style.css" rel="stylesheet" />
-    <title>Site Web Pokemon Ressource R4.01 Kim Hazard Mathieu Le Bourhis</title>
+  <title>Pokemon</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="./data/fast_moves.js"></script>
+  <script src="./data/charged_moves.js"></script>
+  <script src="./data/class_pokemon.js"></script>
+  <script src="./data/generation.js"></script>
+  <script src="./data/cp_multiplier.js"></script>
+  <script src="./data/pokemon_type.js"></script>
+  <script src="./data/pokemon_moves.js"></script>
+  <script src="./data/type_effectiveness.js"></script>
+  <script src="./data/class_attack.js"></script>
+  <script src="./data/class_type.js"></script>
+  <script src="./data/pokemon.js"></script>
+  <script src="./data/class_pokemon_controller.js"></script>
+  <script src="index.js"></script>
 </head>
 <body>
-    
+  <table id="pokemon-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Gen</th>
+        <th>Attaque</th>
+        <th>Défense</th>
+        <th>Types</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody id="pokemon-table-body">
+    </tbody>
+  </table>
 </body>
 </html>
