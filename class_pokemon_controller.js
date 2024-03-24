@@ -17,8 +17,6 @@ class PokemonController {
 
     findGenerationForPokemon(pokeId) {
         const flatGenerationList = this.generationList.flat();
-        console.log(pokeId);
-        console.log(flatGenerationList)
         const generation = flatGenerationList.find(gen => gen.id === pokeId);
         return generation || null;
     }
@@ -119,4 +117,101 @@ class PokemonController {
         }
         return moveDataMap;
     }
+
+
+    getPokemonByName(pokemonName) {
+        const filteredPokemons = this.pokemonList.filter(pokemon => pokemon.pokemon_name.toLowerCase() === pokemonName.toLowerCase());
+
+        
+        return filteredPokemons;
+    }
+
+
+
+    getPokemonsByType(typeName) {
+        return this.pokemonList.filter(pokemon => pokemon.types.some(type => type.type_name.toLowerCase() === typeName.toLowerCase()));
+    }
+
+    getPokemonsByAttack(attackName) {
+        return this.pokemonList.filter(pokemon => 
+            [...pokemon.attacks.fast_moves, ...pokemon.attacks.charged_moves].some(attack => attack.name.toLowerCase() === attackName.toLowerCase())
+        );
+    }
+
+    getAttacksByType(typeName) {
+        const attacks = [];
+        this.pokemonList.forEach(pokemon => {
+            pokemon.attacks.fast_moves.concat(pokemon.attacks.charged_moves).forEach(attack => {
+                if (!attacks.some(a => a.id === attack.id) && pokemon.types.some(type => type.type_name.toLowerCase() === typeName.toLowerCase())) {
+                    attacks.push(attack);
+                }
+            });
+        });
+        return attacks;
+    }
+
+    
+    sortPokemonByName() {
+        return [...this.pokemonList].sort((a, b) => a.pokemon_name.localeCompare(b.pokemon_name));
+    }
+    
+
+    
+    sortPokemonByStamina() {
+        return this.pokemonList.sort((a, b) => b.base_stamina - a.base_stamina);
+    }
+
+    
+   
+
+    
+    
+
+    getWeakestEnemies(attackName) {
+        // Chercher l'attaque dans les attaques rapides et chargées pour obtenir son type
+        let attackType = fast_moves.find(move => move.name.toLowerCase() === attackName.toLowerCase())?.type
+            || charged_moves.find(move => move.name.toLowerCase() === attackName.toLowerCase())?.type;
+    
+        if (!attackType) {
+            console.log("Type d'attaque non trouvé pour :", attackName);
+            return [];
+        }
+    
+        // Convertir le tableau type_effectiveness en objet pour faciliter l'accès
+        let typeEffectivenessObj = type_effectiveness[0];
+    
+        return this.pokemonList.filter(pokemon => {
+            const effectiveness = pokemon.types.reduce((effect, type) => {
+                const eff = typeEffectivenessObj[attackType][type.type_name] || 1; // Utiliser le type d'attaque pour calculer l'efficacité
+                return effect * eff;
+            }, 1);
+            return effectiveness >= 1.6; // Retourner les Pokémon pour lesquels l'attaque est efficace
+        });
+    }
+    
+    
+
+
+    getBestAttackTypesForEnemy(name) {
+        const pokemon = this.pokemonList.find(p => p.pokemon_name.toLowerCase() === name.toLowerCase());
+        if (!pokemon) return [];
+    
+        const bestAttackTypes = [];
+        // Convertir le tableau type_effectiveness en objet pour faciliter l'accès
+        const typeEffectivenessObj = type_effectiveness[0];
+    
+        Object.keys(typeEffectivenessObj).forEach(attackType => {
+            const effectiveness = pokemon.types.reduce((total, type) => {
+                const eff = typeEffectivenessObj[attackType][type.type_name] || 1;
+                return total * eff;
+            }, 1);
+            if (effectiveness > 1) bestAttackTypes.push(attackType);
+        });
+    
+        return bestAttackTypes;
+    }
+    
+    
+    
+    
 }
