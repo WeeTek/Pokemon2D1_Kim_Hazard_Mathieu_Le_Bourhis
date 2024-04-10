@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM Sans">
+    <title>Test</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            font-family: 'DM Sans';
+            font-weight: 800;
+            border-radius: 5px;
+            width: 480px;
+            height: 680px;
+            background: #fff;
+            box-shadow: 2.0px 2.0px 8.0px hsl(0deg 0% 0% / 0.38);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .header {
+            background: #f7f7f7;
+            height: 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .title {
+            height: 110px;
+            margin: 0px 10px 0px 20px;
+            color: #476CCC;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nom {
+            flex-basis: 70%;
+        }
+
+        .generation {
+            flex-basis: 95%;
+            text-align: right;
+            margin-top: -15px;
+        }
+
+        .numero {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .types {
+            color: #fff;
+            display: flex;
+            justify-content: flex-start;
+            margin: -50px 0px;
+            width: 75%;
+        }
+
+        .types p {
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        img {
+            margin: 0px auto;
+            width: 200px;
+            height: 200px;
+        }
+
+        .types .grass {
+            background-color: #4CAF50;
+        }
+
+        .types .fire {
+            background-color: #FFA500;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-family: 'DM Sans';
+            font-weight: bold;
+            cursor: pointer;
+            color: #B4B4B4;
+            background-color: transparent;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .buttons button:focus {
+            outline: none;
+        }
+
+        .buttons button.active {
+            color: #434343;
+            text-decoration: underline;
+            text-decoration-color: #476CCC;
+        }
+
+        .buttons button.active:hover {
+            color: #333;
+            /* Couleur assombrie au survol */
+        }
+
+        .moves-container {
+            margin-top: 20px;
+        }
+
+        .moves-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .moves-container ul li {
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .moves-container ul li:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="title">
+                <h2 class="nom">Pokemon Name</h2>
+                <h2 class="numero">#000</h2>
+                <p class="generation">gen X</p>
+                <div class="types">
+                    <p class="grass">Grass</p>
+                    <p class="fire">Fire</p>
+                </div>
+            </div>
+            <img src="./133.png" alt="Pokemon Image">
+        </div>
+        <div class="body">
+            <div class="buttons">
+                <button class="fast-moves-btn">Fast moves</button>
+                <button class="charge-moves-btn">Charge moves</button>
+            </div>
+            <div class="moves-container"></div>
+        </div>
+    </div>
+
+    <div class="stats-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fastMovesBtn = document.querySelector('.fast-moves-btn');
+            const chargeMovesBtn = document.querySelector('.charge-moves-btn');
+            const movesContainer = document.querySelector('.moves-container');
+            const statsContainer = document.querySelector('.stats-container');
+
+            function showMoves(type) {
+                const moves = (type === 'fast') ? ['Quick Attack', 'Tackle', 'Scratch'] : ['Thunderbolt', 'Flamethrower', 'Hydro Pump'];
+
+                const htmlList = '<ul>' + moves.map(move => '<li class="move">' + move + '</li>').join('') + '</ul>';
+                movesContainer.innerHTML = htmlList;
+
+                document.querySelectorAll('.move').forEach(moveElement => {
+                    moveElement.addEventListener('click', function () {
+                        showStats(moveElement.textContent);
+                    });
+                });
+            }
+
+            function showStats(move) {
+                const stats = {
+                    power: 80,
+                    accuracy: 90,
+                    type: 'Electric',
+                    category: 'Special'
+                };
+
+                statsContainer.innerHTML = `<h3>Statistics for ${move}:</h3>
+                                           <p>Power: ${stats.power}</p>
+                                           <p>Accuracy: ${stats.accuracy}</p>
+                                           <p>Type: ${stats.type}</p>
+                                           <p>Category: ${stats.category}</p>`;
+            }
+
+            fastMovesBtn.addEventListener('click', function () {
+                showMoves('fast');
+                fastMovesBtn.classList.add('active');
+                chargeMovesBtn.classList.remove('active');
+            });
+
+            chargeMovesBtn.addEventListener('click', function () {
+                showMoves('charge');
+                chargeMovesBtn.classList.add('active');
+                fastMovesBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
