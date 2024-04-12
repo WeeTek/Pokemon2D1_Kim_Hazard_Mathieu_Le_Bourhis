@@ -1,3 +1,27 @@
+function sortTable(columnIndex) {
+  let table = document.getElementById("pokemon-table");
+  let rows = Array.from(table.rows).slice(1); // Ignorer l'en-tête
+
+  rows.sort((a, b) => {
+    let cellA = a.cells[columnIndex].innerText;
+    let cellB = b.cells[columnIndex].innerText;
+
+    // Comparaison des cellules en fonction de leur type (nombre ou chaîne)
+    return isNaN(parseFloat(cellA)) ?
+      cellA.localeCompare(cellB) :
+      parseFloat(cellA) - parseFloat(cellB);
+  });
+
+  // Inverser l'ordre de tri si la colonne est cliquée à nouveau
+  if (table.getAttribute("data-sorted") === columnIndex.toString()) {
+    rows.reverse();
+  }
+
+  // Mettre à jour l'attribut "data-sorted" et reconstruire le corps du tableau
+  table.setAttribute("data-sorted", columnIndex);
+  table.tBodies[0].append(...rows);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const pokemonController = new PokemonController();
   
@@ -5,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const pokemonData = pokemonController.pokemonList;
   
     const pokemonTableBody = document.querySelector('#pokemon-table-body');
+
+   
+    
   
 
     pokemonData.forEach(pokemon => {

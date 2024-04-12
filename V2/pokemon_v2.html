@@ -18,22 +18,30 @@
   <script src="../data/pokemon.js"></script>
   <script src="../data/class_pokemon_controller.js"></script>
   <script src="script_v2.js"></script>
+
 </head>
 <body>
   <table id="pokemon-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Gen</th>
-        <th>Attaque</th>
-        <th>Défense</th>
-        <th>Types</th>
+        <th onclick="sortTable(0)">ID</th>
+        <th onclick="sortTable(1)">Nom</th>
+        <th onclick="sortTable(2)">Gen</th>
+        <th onclick="sortTable(3)">Attaque</th>
+        <th onclick="sortTable(4)">Défense</th>
+        <th onclick="sortTable(5)">Types</th>
         <th>Image</th>
       </tr>
     </thead>
+    
     <tbody id="pokemon-table-body">
     </tbody>
   </table>
+  <div id="pagination">
+    <button onclick="previousPage()">Précédent</button>
+    <span id="page-info"></span>
+    <button onclick="nextPage()">Suivant</button>
+  </div>
 </body>
+
 </html>
