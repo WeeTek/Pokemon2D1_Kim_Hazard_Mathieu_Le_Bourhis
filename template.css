@@ -69,24 +69,13 @@ body {
     margin-right: 10px;
     font-weight: bold;
     color: white;
+    text-align: center;
 }
 
 img {
     margin: 0px auto;
     width: 200px;
     height: 200px;
-}
-
-.types .grass {
-    background-color: #4CAF50;
-}
-
-.types .normal {
-    background-color: #476CCC;
-}
-
-.types .fire {
-    background-color: #FFA500;
 }
 
 .buttons {
